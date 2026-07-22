@@ -33,6 +33,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
         user.setPhone(request.getPhone());
+        user.setCreatedAt(java.time.LocalDateTime.now());
 
         userRepository.save(user);
 
