@@ -22,7 +22,7 @@ public class AuctionService {
         auction.setDescription(request.getDescription());
         auction.setStartingPrice(request.getStartingPrice());
         auction.setCurrentHighestBid(request.getStartingPrice());
-        auction.getSellerUsername(sellerUsername);
+        auction.setSellerUsername(sellerUsername);
         auction.setStartTime(request.getStartTime());
         auction.setEndTime(request.getEndTime());
         auction.setImageUrl(request.getImageUrl());
