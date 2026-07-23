@@ -39,4 +39,13 @@ public class GatewayConfig {
                 .before(uri("lb://notification-service"))
                 .build();
     }
+
+//    Request to /api/auctions/** go to auction-service
+    @Bean
+    public RouterFunction<ServerResponse> auctionServiceRoute() {
+        return route("auction-service")
+                .route(path("/api/auctions/**"), http())
+                .before(uri("lb://auction-service"))
+                .build();
+    }
 }
