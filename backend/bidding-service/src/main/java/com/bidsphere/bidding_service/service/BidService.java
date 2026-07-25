@@ -50,8 +50,11 @@ public class BidService {
         bid.setAmount(request.getAmount());
 
         Bid saved = bidRepository.save(bid);
-        BidResponse response = new BidResponse(saved);
 
+        auctionClient.updateHighestBid(request.getAuctionId(),
+                new AuctionClient.UpdateHighestBidRequest(request.getAmount()));
+
+        BidResponse response = new BidResponse(saved);
 //        Broadcast the new bid to everyone watching this auction in real time
         webSocketPublisher.publishNewBid(response);
 

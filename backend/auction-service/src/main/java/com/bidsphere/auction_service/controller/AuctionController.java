@@ -2,6 +2,7 @@ package com.bidsphere.auction_service.controller;
 
 import com.bidsphere.auction_service.dto.AuctionResponse;
 import com.bidsphere.auction_service.dto.CreateAuctionRequest;
+import com.bidsphere.auction_service.dto.UpdateHighestBidRequest;
 import com.bidsphere.auction_service.service.AuctionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,12 @@ public class AuctionController {
     @GetMapping("/seller/{username}")
     public ResponseEntity<?> getAuctionBySeller(@PathVariable String username) {
         return ResponseEntity.ok(auctionService.getAuctionsBySaller(username));
+    }
+
+    @PutMapping("/{id}/highest-bid")
+    public ResponseEntity<AuctionResponse> updateHighestBid(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateHighestBidRequest request) {
+        return ResponseEntity.ok(auctionService.updateHighestBid(id, request.getNewHighestBid()));
     }
 }

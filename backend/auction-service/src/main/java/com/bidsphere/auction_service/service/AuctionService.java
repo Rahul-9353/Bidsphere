@@ -8,6 +8,7 @@ import com.bidsphere.auction_service.repository.AuctionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -53,5 +54,14 @@ public class AuctionService {
                 .stream()
                 .map(AuctionResponse::new)
                 .toList();
+    }
+
+    public AuctionResponse updateHighestBid(Long auctionId, BigDecimal newHighestBid) {
+        Auction auction = auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new IllegalArgumentException("Auction Not Found"));
+
+        auction.setCurrentHighestBid(newHighestBid);
+        Auction saved = auctionRepository.save(auction);
+        return new AuctionResponse(saved);
     }
 }
