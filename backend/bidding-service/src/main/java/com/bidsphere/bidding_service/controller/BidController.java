@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/bids")
 @RequiredArgsConstructor
@@ -20,5 +22,10 @@ public class BidController {
             @Valid @RequestBody PlaceBidRequest request,
             @RequestHeader("X-Username") String bidderUsername) {
         return ResponseEntity.ok(bidService.placeBid(request, bidderUsername));
+    }
+
+    @GetMapping("/auction/{auctionId}")
+    public ResponseEntity<List<BidResponse>> getBidsForAuction(@PathVariable Long auctionId) {
+        return ResponseEntity.ok(bidService.getBidsForAuction(auctionId));
     }
 }
