@@ -1,1 +1,24 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-primary-50: #f5f3ff;
+    --color-primary-100: #ede9fe;
+    --color-primary-400: #a78bfa;
+    --color-primary-500: #8b5cf6;
+    --color-primary-600: #7c3aed;
+    --color-primary-700: #6d28d9;
+    --color-primary-900: #4c1d95;
+
+    --color-accent-400: #fbbf24;
+    --color-accent-500: #f59e0b;
+    --color-accent-600: #d97706;
+
+    --color-surface-dark: #0f0b1a;
+
+    --color-surface-darkCard: #1a1425;
+
+    --font-display: "Fraunces", serif;
+
+    --font-sans: "Inter", sans-serif;
+}
