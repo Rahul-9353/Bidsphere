@@ -48,4 +48,12 @@ public class GatewayConfig {
                 .before(uri("lb://auction-service"))
                 .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> currencyRoute() {
+        return route("currency-service")
+                .route(path("/api/currency/**"), http())
+                .before(uri("lb://auction-service"))
+                .build();
+    }
 }
