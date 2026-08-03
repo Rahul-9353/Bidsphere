@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 
 const ThemeContext = createContext();
 
-export default function ThemeProvider({ children }) {
+export function ThemeProvider({ children }) {
     // light mode and dark mode
     const [theme, setTheme] = useState(() => {
         const stored = localStorage.getItem('bidsphere-theme');

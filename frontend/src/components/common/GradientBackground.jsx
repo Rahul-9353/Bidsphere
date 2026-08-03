@@ -4,20 +4,31 @@ export default function GradientBackground() {
            
             {/* Top left */}
             <div
-                className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full blur-3xl opacity-40 dark:opacity-50" 
-                style={{ background: 'radial-gradient(circle, #7c3aed, transparent 70%)' }}
+                className="absolute -top-40 -left-40 w-[550px] h-[550px] rounded-full blur-3xl opacity-55 dark:opacity-40" 
+                style={{ background: 'radial-gradient(circle, #7c3aed, transparent 65%)' }}
             />
+
+            {/* top right */}
+            <div 
+                className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full blur-3xl opacity-55 dark:opacity-40"
+                style={{ background: 'radial-gradient(circle, #f59e0b, transparent 65%)' }}
+            />
+
+            {/* Bottom left */}
+            <div 
+                className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full blur-3xl opacity-55 dark:opacity-40"
+                style={{ background: 'radial-gradient(circle, #f59e0b, transparent 65%)' }}/>
 
             {/* Bottom right */}
             <div 
-                className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full blur-3xl opacity-30 dark:opacity-40" 
-                style={{ background: 'radial-gradient(circle, #f59e0b, transparent 70%)' }}
+                className="absolute -bottom-40 -right-40 w-[550px] h-[550px] rounded-full blur-3xl opacity-55 dark:opacity-40" 
+                style={{ background: 'radial-gradient(circle, #7c3aed, transparent 65%)' }}
             />
 
             {/* Center */}
             <div 
-                className="absolute top-0.5 left-0.5 -translate-x-0.5 -translate-y-0.5 w-[500px] h-[500px] rounded-full blur-3xl opacity-60 dark:opacity-30"
-                style={{ background: 'radial-gradient(circle, #ffffff, transparent 70%)' }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-3xl opacity-60 dark:opacity-45"
+                style={{ background: 'radial-gradient(circle, #ec4899, transparent 60%)' }}
             />
         </div>
     );
