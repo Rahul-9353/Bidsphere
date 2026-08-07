@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar';
 import { Route, Routes } from 'react-router';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Home from './pages/Home';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -14,11 +15,7 @@ function App() {
       <GradientBackground />
       <Navbar />
       <Routes>
-        <Route path='/' element={
-          <div className='min-h-screen flex items-center justify-center text-gray-900 dark:text-white'>
-            <p className='font-sans text-gray-500 dark:text-gray-400'>Page contact will go here - routing next.</p>
-        </div>
-        } />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Routes>
