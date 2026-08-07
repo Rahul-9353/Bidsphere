@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router';
 import { Loader, Loader2 } from 'lucide-react';
+import Register from './Register';
+import { Link } from 'react-router';
+import logo from '../assets/logo.png';
 
 export default function Login() {
     const [username, setUsername] = useState('');
