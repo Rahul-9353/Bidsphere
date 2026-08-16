@@ -3,7 +3,7 @@ import { getAllAuctions } from '../api/AuctionApi';
 import { ArrowRight, Gavel } from 'lucide-react';
 import AuctionCard from '../components/auction/AuctionCard';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'lucide-react';
+import { Link } from 'react-router';
 import { Loader2 } from 'lucide-react';
 
 export default function Home() {

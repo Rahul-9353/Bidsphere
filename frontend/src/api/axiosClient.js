@@ -10,6 +10,12 @@ axiosClient.interceptors.request.use((config) => {
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
+    const storedUser = localStorage.getItem('bidsphere-user');
+    if (storedUser) {
+        const { username } = JSON.parse(storedUser);
+        config.headers['X-Username'] = username;
+    }
     return config;
 });
 

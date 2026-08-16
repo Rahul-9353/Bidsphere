@@ -1,7 +1,7 @@
-import { Clock, User } from 'lucide-react';
-import React from 'react'
-import { Link } from 'lucide-react';
-import { Tag } from 'lucide-react';
+import { Clock, User, Tag } from 'lucide-react';
+import React, { useState } from 'react'
+import { Link } from 'react-router';
+
 
 // Formats "2026-08-10T10:00:00" into a human-readable countdown label
 function getTimeLeftLabel(endTime) {
@@ -23,6 +23,8 @@ export default function AuctionCard({ auction }) {
         id, title, description, currentHighestBid, currency, sellerUsername, category, imageUrl, endTime
     } = auction;
 
+    const [imageError, setImageError] = useState(false);
+
   return (
     <Link 
         to={`/auctions/${id}`}
@@ -30,10 +32,11 @@ export default function AuctionCard({ auction }) {
     >
         {/* Image */}
         <div className='aspect-[4/3] bg-gray-100 dark:bg-white/5 overflow-hidden'>
-            {imageUrl ? (
+            {imageUrl && !imageError ? (
                 <img 
                     src={imageUrl} 
                     alt={title} 
+                    onError={() => setImageError(true)}
                     className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500'
                 />
             ) : (

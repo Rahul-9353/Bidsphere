@@ -12,7 +12,8 @@ public class BidWebSocketPublisher {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void publishNewBid(BidResponse bid) {
-        String destination = "/topic/auctions/" + bid.getAuctionId();
+        String destination = "/topic/auction/" + bid.getAuctionId();
+        System.out.println("Publishing bid to destination: " + destination + " | bid amount: " + bid.getAmount());
         simpMessagingTemplate.convertAndSend(destination, bid);
     }
 }
