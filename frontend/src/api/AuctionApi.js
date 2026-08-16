@@ -1,4 +1,6 @@
+import { data } from 'react-router';
 import axiosClient from './axiosClient';
 
 export const getAllAuctions = () => axiosClient.get('/auctions').then(res => res.data);
 export const getAuctionById = (id) => axiosClient.get(`/auctions/${id}`).then(res => res.data);
+export const createAuction = (data) => axiosClient.post('/auctions', data). then(res => res.data);

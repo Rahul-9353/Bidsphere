@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import AuctionDetail from './pages/AuctionDetail';
+import CreateAuction from './pages/CreateAuction';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/auctions' element={<Home />} />
         <Route path='/auctions/:id' element={<AuctionDetail />} />
+        <Route path='/create-auction' element={<CreateAuction />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Routes>
