@@ -14,6 +14,7 @@ export default function CreateAuction() {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
+        startingPrice: '',
         startTime: '',
         endTime: '',
         imageUrl: '',
@@ -49,7 +50,7 @@ export default function CreateAuction() {
         }
     };
 
-    if (isAuthenticated) {
+    if (!isAuthenticated) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center px-6">
                 <p className="font-sans text-gray-500 dark:text-gray-400 text-center">
@@ -74,7 +75,7 @@ export default function CreateAuction() {
       </div>
 
       <form 
-        onSubmit={handleChange}
+        onSubmit={handleSubmit}
         className="bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10 rounded-2xl p-8 shadow-xl shadow-purple-900/5 space-y-5"
     >
         {error && (
