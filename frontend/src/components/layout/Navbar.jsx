@@ -1,14 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router';
 import { Sun, Moon, LogOut, Gavel, PlusCircle } from 'lucide-react';
 import logo from '../../assets/logo.png';
+import { useNotifications } from '../../context/NotificationContext';
+import { Bell } from 'lucide-react';
 
 export default function Navbar() {
     const { theme, toggleTheme } = useTheme();
     const { user, logout, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+    const { notifications, unreadCount, markAllRead } = useNotifications();
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -42,6 +47,46 @@ export default function Navbar() {
 
             {/* Right side: theme toggle + auth */}
             <div className='flex items-center gap-5'>
+                {isAuthenticated && (
+                    <div className="relative">
+                        <button 
+                            onClick={() => { setShowDropdown(!showDropdown); markAllRead(); }}
+                            aria-label='Notifications'
+                            className='relative p-2.5 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors'
+                        >
+                            <Bell size={22} />
+                            {unreadCount > 0 && (
+                                <span className="absolute top-1 ring-1 w-4 h-4 flex items-center justify-center text-[10px] font-bold text-white bg-accent-500 rounded-full">
+                                    {unreadCount}
+                                </span>
+                            )}
+                        </button>
+
+                        {showDropdown && (
+                            <div className="absolute ring-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white dark:bg-surface-darkCard border border-gray-200 dark:border-white/10 rounded-2xl shadow-xl p-2 font-sans">
+                                {notifications.length === 0 ? (
+                                    <p className="text-center text-sm text-gray-400 dark:text-gray-500 py-6">No notifications yet</p>
+                                ) : (
+                                    notifications.map((n) => (
+                                        <Link 
+                                            key={n.id}
+                                            to={`/auctions/${n.auctionId}`}
+                                            onClick={() => setShowDropdown(false)}
+                                            className='block px-3 py-2.5 rounded-lg hover:bg-gray-50 dark:hover:bg-white/5 transition-colors'
+                                        >
+                                            <p className="text-sm text-gray-800 dark:text-gray-200">
+                                                Outbid by <span className="font-semibold">{n.newBidderUsername}</span> - {n.newBidAmount}
+                                            </p>
+                                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                                                {new Date(n.receivedAt).toLocaleDateString()}
+                                            </p>
+                                        </Link>
+                                    ))
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
                 <button 
                     onClick={toggleTheme}
                     aria-label='Toggle theme'

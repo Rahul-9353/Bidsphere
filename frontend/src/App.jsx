@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import AuctionDetail from './pages/AuctionDetail';
 import CreateAuction from './pages/CreateAuction';
+import NotificationToast from './components/common/NotificationToast';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -16,6 +17,7 @@ function App() {
     <>
       <GradientBackground />
       <Navbar />
+      <NotificationToast />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/auctions' element={<Home />} />
