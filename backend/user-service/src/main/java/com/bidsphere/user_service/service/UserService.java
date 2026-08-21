@@ -3,6 +3,7 @@ package com.bidsphere.user_service.service;
 import com.bidsphere.user_service.dto.AuthResponse;
 import com.bidsphere.user_service.dto.LoginRequest;
 import com.bidsphere.user_service.dto.RegisterRequest;
+import com.bidsphere.user_service.email.EmailService;
 import com.bidsphere.user_service.entity.User;
 import com.bidsphere.user_service.repository.UserRepository;
 import com.bidsphere.user_service.security.JwtService;
@@ -17,6 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final EmailService emailService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -36,6 +38,8 @@ public class UserService {
         user.setCreatedAt(java.time.LocalDateTime.now());
 
         userRepository.save(user);
+
+        emailService.sendWelcomeEmail(user.getEmail(), user.getUsername());
 
         String token = jwtService.generateToken(user.getUsername(), user.getRole().name());
         return new AuthResponse(token, user.getUsername(),  user.getRole().name());

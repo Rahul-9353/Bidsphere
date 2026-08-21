@@ -15,6 +15,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bidsphere111@gmail.com
+    password: kdlq qvlo ejhl tnli
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+app:
+  contact-email:  bidsphere111@gmail.com
 
 eureka:
   client:

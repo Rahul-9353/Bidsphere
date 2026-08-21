@@ -56,4 +56,12 @@ public class GatewayConfig {
                 .before(uri("lb://auction-service"))
                 .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> contactRoute() {
+        return route("contact-service")
+                .route(path("/api/contact/**"), http())
+                .before(uri("lb://user-service"))
+                .build();
+    }
 }

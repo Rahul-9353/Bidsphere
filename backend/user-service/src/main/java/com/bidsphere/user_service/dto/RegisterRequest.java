@@ -1,10 +1,7 @@
 package com.bidsphere.user_service.dto;
 
 import com.bidsphere.user_service.entity.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +23,7 @@ public class RegisterRequest {
     )
     private String password;
 
-    @NotBlank(message = "Role is required")
+    @NotNull(message = "Role is required")
     private Role role;
 
     private String phone;
