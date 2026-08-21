@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router';
 import logo from '../assets/logo.png';
+import { validatePassword } from '../utils/passwordValidation';
 
 export default function Register() {
     const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ export default function Register() {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [passwordErrors, setPasswordErrors] = useState([]);
     const { register } = useAuth();
     const navigate = useNavigate();
 
@@ -21,6 +23,13 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        const pwErrors = validatePassword(formData.password);
+        if (pwErrors.length > 0) {
+            setError('Please fix the password requirements below.');
+            return;
+        }
+
         setLoading(true);
         try {
             await register(formData);
@@ -90,10 +99,25 @@ export default function Register() {
                 </label>
                 <input 
                     type="password" name='password' required minLength={8} 
-                    value={formData.password} onChange={handleChange}
+                    value={formData.password} 
+                    onChange={(e) => {
+                        handleChange(e);
+                        setPasswordErrors(validatePassword(e.target.value));
+                    }}
                     className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
                     placeholder='At least 8 characters'
                 />
+
+                {formData.password && passwordErrors.length > 0 && (
+                    <ul className="mt-2 space-y-1">
+                        {passwordErrors.map((err) => (
+                            <li key={err} className="text-xs text-red-500 dark:text-red-400 font-sans flex items-center gap-1">
+                                <span className="w-1 h-1 rounded-full bg-red-500 dark:bg-red-400" />
+                                {err}
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
 
             <div className='mb-4'>
