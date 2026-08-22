@@ -10,6 +10,8 @@ import AuctionDetail from './pages/AuctionDetail';
 import CreateAuction from './pages/CreateAuction';
 import NotificationToast from './components/common/NotificationToast';
 import Footer from './components/layout/Footer';
+import Contact from './pages/Contact';
+import About from './pages/About';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -24,6 +26,8 @@ function App() {
         <Route path='/auctions' element={<Home />} />
         <Route path='/auctions/:id' element={<AuctionDetail />} />
         <Route path='/create-auction' element={<CreateAuction />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
       </Routes>

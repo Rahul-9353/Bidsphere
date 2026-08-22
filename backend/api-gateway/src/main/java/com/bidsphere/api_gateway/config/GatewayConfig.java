@@ -64,4 +64,5 @@ public class GatewayConfig {
                 .before(uri("lb://user-service"))
                 .build();
     }
+
 }
