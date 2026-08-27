@@ -5,14 +5,17 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router';
 import logo from '../assets/logo.png';
 import { validatePassword } from '../utils/passwordValidation';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
     const [formData, setFormData] = useState({
-        username: '', email: '', password: '', role: 'BIDDER', phone: ''
+        username: '', email: '', password: '', confirmPassword: '', role: 'BIDDER', phone: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [passwordErrors, setPasswordErrors] = useState([]);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
 
@@ -24,6 +27,11 @@ export default function Register() {
         e.preventDefault();
         setError('');
 
+        if (formData.password !== formData.confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+
         const pwErrors = validatePassword(formData.password);
         if (pwErrors.length > 0) {
             setError('Please fix the password requirements below.');
@@ -32,7 +40,8 @@ export default function Register() {
 
         setLoading(true);
         try {
-            await register(formData);
+            const { confirmPassword, ...payload} = formData;
+            await register(payload);
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Registeration failed. Try a different username or email.');
@@ -97,16 +106,26 @@ export default function Register() {
                 <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 font-sans'>
                     Password
                 </label>
-                <input 
-                    type="password" name='password' required minLength={8} 
-                    value={formData.password} 
-                    onChange={(e) => {
-                        handleChange(e);
-                        setPasswordErrors(validatePassword(e.target.value));
-                    }}
-                    className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
-                    placeholder='At least 8 characters'
-                />
+                <div className="relative">
+                    <input 
+                        type={showPassword ? 'text' : 'password'} 
+                        name='password' required minLength={8} 
+                        value={formData.password} 
+                        onChange={(e) => {
+                            handleChange(e);
+                            setPasswordErrors(validatePassword(e.target.value));
+                        }}
+                        className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
+                        placeholder='At least 8 characters'
+                    />
+                    <button 
+                        type='button'
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                    >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                </div>
 
                 {formData.password && passwordErrors.length > 0 && (
                     <ul className="mt-2 space-y-1">
@@ -117,6 +136,32 @@ export default function Register() {
                             </li>
                         ))}
                     </ul>
+                )}
+            </div>
+
+            <div className='mb-4'>
+                <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 font-sans'>
+                    Confirm Password
+                </label>
+                <div className="relative">
+                    <input 
+                        type={showConfirmPassword ? 'text' : 'password'} 
+                        name='confirmPassword' required minLength={8} 
+                        value={formData.confirmPassword} 
+                        onChange={handleChange}
+                        className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
+                        placeholder='Re-enter your password'
+                    />
+                    <button 
+                        type='button'
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                    >
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                </div>
+                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                    <p className="text-xs text-red-500 dark:text-red-400 font-sans mt-1.5">Passwords don't match</p>
                 )}
             </div>
 

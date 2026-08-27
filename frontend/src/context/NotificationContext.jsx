@@ -18,10 +18,12 @@ export default function NotificationProvider({ children }) {
 
         const client = new Client({
             webSocketFactory: () => new SockJS('http://localhost:8084/websocket'),
+            debug: (str) => console.log('[NOTIF-STOMP]', str),
+            
             reconnectDelay: 5000,
             onConnect: () => {
                 // Subscribes to the specific user's private notification channel
-                client.subscribe(`/user/${user.username}/queue/notifications`, (message) => {
+                client.subscribe(`/topic/notifications/${user.username}`, (message) => {
                     const event = JSON.parse(message.body);
                     const notification = {
                         id: Date.now(),

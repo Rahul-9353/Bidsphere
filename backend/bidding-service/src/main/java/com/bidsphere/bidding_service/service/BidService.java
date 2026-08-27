@@ -65,14 +65,19 @@ public class BidService {
 
 //        publish an outbid event, but only if someone was actually outbid
         previousTopBid.ifPresent(prevBid -> {
-            OutbidEvent event = new OutbidEvent(
-                    request.getAuctionId(),
-                    prevBid.getBidderUsername(),
-                    prevBid.getAmount(),
-                    request.getAmount(),
-                    bidderUsername
-            );
-            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_OUTBID, event);
+            if (!prevBid.getBidderUsername().equals(bidderUsername)) {
+                OutbidEvent event = new OutbidEvent(
+                        request.getAuctionId(),
+                        prevBid.getBidderUsername(),
+                        prevBid.getAmount(),
+                        request.getAmount(),
+                        bidderUsername
+                );
+                System.out.println("Publishing OUTBID event: outbidUsername=" + event.outbidUsername() + " | newBidder=" + bidderUsername);
+                rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_OUTBID, event);
+            } else {
+                System.out.println("Skipped outbid event - bidder outbid themselves");
+            }
         });
 
         BidResponse response = new BidResponse(saved);

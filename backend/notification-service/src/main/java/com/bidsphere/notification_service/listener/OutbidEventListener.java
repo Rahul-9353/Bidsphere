@@ -18,10 +18,7 @@ public class OutbidEventListener {
     public void handleOutbidEvent(OutBidEvent event) {
         System.out.println("Received outbid event: " + event);
 //        sends privately to just this one user
-        messagingTemplate.convertAndSendToUser(
-                event.outbidUsername(),
-                "/queue/notifications",
-                event
-        );
+        String destination = "/topic/notifications/" + event.outbidUsername();
+        messagingTemplate.convertAndSend(destination, event);
     }
 }

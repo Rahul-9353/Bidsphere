@@ -37,6 +37,12 @@ export default function Navbar() {
                 <Link to="/auctions" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     Browse Auctions
                 </Link>
+                <Link to="/about" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    About
+                </Link>
+                <Link to="/contact" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    Contact
+                </Link>
                 {isAuthenticated && (
                     <Link to="/create-auction" className="flex items-center gap-1.5 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                         <PlusCircle size={20} />
