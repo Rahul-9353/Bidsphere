@@ -5,20 +5,9 @@ import { getAuctionById } from '../api/AuctionApi';
 import { useAuctionSocket } from '../hooks/useAuctionSocket';
 import { Gavel, Loader2, Clock, Tag, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCountdown } from '../hooks/useCountdown';
 
-function getTimeLeftLabel(endTime) {
-    const diffMs = new Date(endTime) - new Date();
-    if (diffMs <= 0) {
-        return 'Auction ended';
-    }
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
-    if (days > 0) {
-        return `${days}d ${hours}h left`;
-    }
-    return `${hours}h ${minutes}m left`;
-}
+const { label: timeLabel, ended: isEnded, urgent } = useCountdown(auction.endTime);
 
 export default function AuctionDetail() {
     const { id } = useParams();
@@ -79,8 +68,7 @@ export default function AuctionDetail() {
         );
     }
 
-    const isEnded = new Date(auction.endTime) <= new Date();
-    const isOwnAuction = user?.username === auction.sellerUsername;
+    
 
     return (
         <div className='max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-10'>
@@ -122,8 +110,8 @@ export default function AuctionDetail() {
                     <span className='flex items-center gap-1.5 text-gray-500 dark:text-gray-400'>
                         <User size={14} /> Sold by <span className='font-medium text-gray-700 dark:text-gray-200'>{auction.sellerUsername}</span>
                     </span>
-                    <span className='flex items-center gap-1.5 text-accent-600 dark:text-accent-400 font-medium'>
-                            <Clock size={14} /> {getTimeLeftLabel(auction.endTime)}
+                    <span className={`flex items-center gap-1.5 font-medium ${urgent ? 'text-red-500 dark:text-red-400 animate-pulse' : 'text-accent-600 dark:text-accent-400'}`}>
+                            <Clock size={14} /> {timeLabel}
                     </span>
                 </div>
 

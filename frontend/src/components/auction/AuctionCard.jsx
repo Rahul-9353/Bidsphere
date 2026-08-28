@@ -1,22 +1,12 @@
 import { Clock, User, Tag } from 'lucide-react';
 import React, { useState } from 'react'
 import { Link } from 'react-router';
+import { useCountdown } from '../../hooks/useCountdown';
+import AuctionBadge from './AuctionBadge';
 
 
 // Formats "2026-08-10T10:00:00" into a human-readable countdown label
-function getTimeLeftLabel(endTime) {
-    const diffMs = new Date(endTime) - new Date();
-    if (diffMs <= 0) {
-        return 'Ended';
-    }
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-    if (days > 0) {
-        return `${days}d ${hours}h left`;
-    }
-    const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
-    return `${hours}h ${minutes}m left`;
-}
+const { label: timeLabel, urgent } = useCountdown(endTime);
 
 export default function AuctionCard({ auction }) {
     const {
@@ -31,7 +21,8 @@ export default function AuctionCard({ auction }) {
         className="group block bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10 rounded-2xl overflow-hidden hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-primary-900/10 transition-all duration-300"
     >
         {/* Image */}
-        <div className='aspect-[4/3] bg-gray-100 dark:bg-white/5 overflow-hidden'>
+        <div className='relative aspect-[4/3] bg-gray-100 dark:bg-white/5 overflow-hidden'>
+            <AuctionBadge auction={auction} />
             {imageUrl && !imageError ? (
                 <img 
                     src={imageUrl} 
@@ -75,9 +66,9 @@ export default function AuctionCard({ auction }) {
                         {currency} {Number(currentHighestBid).toFixed(2)}
                     </p>
                 </div>
-                <div className='flex items-center gap-1 text-sm font-medium text-accent-600 dark:text-accent-400 font-sans'>
+                <div className={`flex items-center gap-1 text-sm font-medium font-sans ${urgent ? 'text-red-500 dark:text-red-400 animate-pulse' : 'text-accent-600 dark:text-accent-400'}`}>
                     <Clock size={14} />
-                    {getTimeLeftLabel(endTime)}
+                    {timeLabel}
                 </div>
             </div>
 
