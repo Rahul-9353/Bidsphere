@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-export function useCountdown() {
+export function useCountdown(endTime) {
     const [timeLeft, setTimeLeft] = useState(() => calculate(endTime));
 
     useEffect(() => {
@@ -14,6 +14,10 @@ export function useCountdown() {
 }
 
 function calculate(endTime) {
+    if (!endTime) {
+        return { label: '-', ended: false, urgent: false };
+    }
+
     const diffMs = new Date(endTime) - new Date();
     if (diffMs <= 0) {
         return { label: 'Ended', ended: true, urgent: false };

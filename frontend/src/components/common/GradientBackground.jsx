@@ -1,7 +1,14 @@
+import logo from '../../assets/logo.png';
+
 export default function GradientBackground() {
     return (
         <div className="fixed inset-0 -z-10 overflow-hidden bg-white dark:bg-surface-dark transition-colors duration-300">
-           
+            
+            <div 
+                className="absolute inset-0 text-gray-400 dark:text-white opacity-[0.15] dark:opacity-[0.08]"
+                style={{ backgroundImage: `url(${logo})`, backgroundRepeat: 'repeat' }} 
+            />
+
             {/* Top left */}
             <div
                 className="absolute -top-40 -left-40 w-[550px] h-[550px] rounded-full blur-3xl opacity-55 dark:opacity-40" 

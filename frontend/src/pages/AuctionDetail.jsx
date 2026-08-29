@@ -7,12 +7,11 @@ import { Gavel, Loader2, Clock, Tag, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCountdown } from '../hooks/useCountdown';
 
-const { label: timeLabel, ended: isEnded, urgent } = useCountdown(auction.endTime);
 
 export default function AuctionDetail() {
     const { id } = useParams();
     const { user, isAuthenticated } = useAuth();
-
+    
     const [auction, setAuction] = useState(null);
     const [bids, setBids] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,6 +19,10 @@ export default function AuctionDetail() {
     const [placing, setPlacing] = useState(false);
     const [bidError, setBidError] = useState('');
     const [imageError, setImageError] = useState(false);
+    
+    const { label: timeLabel, ended: isEnded, urgent } = useCountdown(auction?.endTime);
+
+    const isOwnAuction = isAuthenticated && auction?.sellerUsername === user?.username;
 
     useEffect(() => {
         Promise.all([getAuctionById(id), getBidsForAuction(id)])

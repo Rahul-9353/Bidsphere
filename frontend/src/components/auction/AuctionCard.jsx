@@ -6,15 +6,15 @@ import AuctionBadge from './AuctionBadge';
 
 
 // Formats "2026-08-10T10:00:00" into a human-readable countdown label
-const { label: timeLabel, urgent } = useCountdown(endTime);
 
 export default function AuctionCard({ auction }) {
     const {
         id, title, description, currentHighestBid, currency, sellerUsername, category, imageUrl, endTime
     } = auction;
-
+    
     const [imageError, setImageError] = useState(false);
-
+    const { label: timeLabel, urgent } = useCountdown(endTime);
+    
   return (
     <Link 
         to={`/auctions/${id}`}
