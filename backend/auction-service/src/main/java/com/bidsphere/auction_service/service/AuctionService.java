@@ -64,4 +64,26 @@ public class AuctionService {
         Auction saved = auctionRepository.save(auction);
         return new AuctionResponse(saved);
     }
+
+    public List<AuctionResponse> searchAuctions(String query, String category, String sortBy) {
+        List<Auction> auctions;
+
+        if (query != null && !query.isBlank()) {
+            auctions = auctionRepository.findByStatusAndTitleContainingIgnoreCase(AuctionStatus.ACTIVE, query);
+        } else if (category != null && !category.isBlank() && !category.equalsIgnoreCase("All")) {
+            auctions = auctionRepository.findByStatusAndCategory(AuctionStatus.ACTIVE, category);
+        } else  {
+            auctions = auctionRepository.findByStatus(AuctionStatus.ACTIVE);
+        }
+
+        if ("endingSoon".equals(sortBy)) {
+            auctions.sort((a, b) -> a.getEndTime().compareTo(b.getEndTime()));
+        } else if ("priceLowHigh".equals(sortBy)) {
+            auctions.sort((a, b) -> a.getCurrentHighestBid().compareTo(b.getCurrentHighestBid()));
+        } else if ("priceHighLow".equals(sortBy)) {
+            auctions.sort((a, b) -> b.getCurrentHighestBid().compareTo(a.getCurrentHighestBid()));
+        }
+
+        return auctions.stream().map(AuctionResponse::new).toList();
+    }
 }

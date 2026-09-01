@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { getAllAuctions } from '../api/AuctionApi';
+import { getAllAuctions, searchAuctions } from '../api/AuctionApi';
 import { ArrowRight, Gavel } from 'lucide-react';
 import AuctionCard from '../components/auction/AuctionCard';
 import { useAuth } from '../context/AuthContext';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { Loader2 } from 'lucide-react';
+import AuctionFilters from '../components/auction/AuctionFilters';
 
 export default function Home() {
     const [auctions, setAuctions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const { isAuthenticated } = useAuth();
+    const location = useLocation();
+    const isBrowsePage = location.pathname === '/auctions';
+    const [filters, setFilters] = useState({ query: '', category: 'All', sortBy: ''});
+    const featured = auctions.slice(0, 3);
 
     useEffect(() => {
-        getAllAuctions()
-        .then(setAuctions)
-        .catch(() => setError('Could not load auctions. Is the backend running?'))
-        .finally(() => setLoading(false));
-    }, []);
+        const fetchFn = isBrowsePage
+            ? () => searchAuctions(filters)
+            : getAllAuctions;
 
-    const featured = auctions.slice(0, 3);
+        fetchFn()
+            .then(setAuctions)
+            .catch(() => setError('Could not load auctions. Is the backend running?'))
+            .finally(() => setLoading(false));
+    }, [isBrowsePage, filters.query, filters.category, filters.sortBy]);
+
 
   return (
     <div>
@@ -82,6 +90,8 @@ export default function Home() {
                     Be the first to create an auction!
                 </p>
             )}
+
+            {isBrowsePage && <AuctionFilters filters={filters} onChange={setFilters} />}
 
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                 {(featured.length > 0 ? auctions : []).map((auction) => (

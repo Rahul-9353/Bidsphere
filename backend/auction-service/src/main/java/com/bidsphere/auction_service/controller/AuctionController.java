@@ -44,4 +44,12 @@ public class AuctionController {
             @Valid @RequestBody UpdateHighestBidRequest request) {
         return ResponseEntity.ok(auctionService.updateHighestBid(id, request.getNewHighestBid()));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchAuctions(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String sortBy) {
+        return ResponseEntity.ok(auctionService.searchAuctions(query, category, sortBy));
+    }
 }

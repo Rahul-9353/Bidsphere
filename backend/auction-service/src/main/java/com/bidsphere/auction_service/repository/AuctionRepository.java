@@ -11,4 +11,7 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
     List<Auction> findByStatus(AuctionStatus status);
     List<Auction> findBySellerUsername(String sellerUsername);
     List<Auction> findByCategory(String category);
+
+    List<Auction> findByStatusAndTitleContainingIgnoreCase(AuctionStatus status, String title);
+    List<Auction> findByStatusAndCategory(AuctionStatus status, String category);
 }

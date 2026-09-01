@@ -1,4 +1,4 @@
-import logo from '../../assets/logo.png';
+import background from '../../assets/background.png';
 
 export default function GradientBackground() {
     return (
@@ -6,7 +6,7 @@ export default function GradientBackground() {
             
             <div 
                 className="absolute inset-0 text-gray-400 dark:text-white opacity-[0.15] dark:opacity-[0.08]"
-                style={{ backgroundImage: `url(${logo})`, backgroundRepeat: 'repeat' }} 
+                style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'repeat' }} 
             />
 
             {/* Top left */}
