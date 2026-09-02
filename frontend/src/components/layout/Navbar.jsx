@@ -103,9 +103,11 @@ export default function Navbar() {
 
                 {isAuthenticated ? (
                     <div className='flex items-center gap-4'>
-                        <span className='hidden sm:block text-base font-sans text-gray-600 dark:text-gray-300'>
+                        <Link 
+                            to="/profile"
+                            className='hidden sm:block text-base font-sans text-gray-600 dark:text-gray-300'>
                             Hi, <span className='font-semibold'>{user.username}</span>
-                        </span>
+                        </Link>
                         <button
                             onClick={handleLogout}
                             className='flex items-center gap-1.5 px-4 py-2 rounded-full text-base font-medium bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-white/20 transition-colors'

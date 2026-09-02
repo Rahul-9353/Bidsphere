@@ -28,4 +28,9 @@ public class BidController {
     public ResponseEntity<List<BidResponse>> getBidsForAuction(@PathVariable Long auctionId) {
         return ResponseEntity.ok(bidService.getBidsForAuction(auctionId));
     }
+
+    @GetMapping("/user/{username}")
+    public  ResponseEntity<List<BidResponse>> getBidsForUser(@PathVariable String username) {
+        return ResponseEntity.ok(bidService.getBidsByUser(username));
+    }
 }

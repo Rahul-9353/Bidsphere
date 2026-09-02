@@ -5,3 +5,6 @@ export const placeBid = (auctionId, amount) =>
 
 export const getBidsForAuction = (auctionId) => 
     axiosClient.get(`/bids/auction/${auctionId}`).then(res => res.data);
+
+export const getBidsByUser = (username) => 
+    axiosClient.get(`/bids/user/${username}`).then(res => res.data);

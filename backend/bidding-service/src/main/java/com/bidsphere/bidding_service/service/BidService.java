@@ -94,4 +94,11 @@ public class BidService {
                 .map(BidResponse::new)
                 .toList();
     }
+
+    public List<BidResponse> getBidsByUser(String username) {
+        return bidRepository.findByBidderUsernameOrderByPlacedAtDesc(username)
+                .stream()
+                .map(BidResponse::new)
+                .toList();
+    }
 }

@@ -13,5 +13,8 @@ export const searchAuctions = (params) => {
     
     return axiosClient.get('/auctions/search', { params: cleaned }).then (res => res.data);
 }
+
+export const getAuctionsBySeller = (username) => 
+    axiosClient.get(`/auctions/seller/${username}`).then(res => res.data);
     
     

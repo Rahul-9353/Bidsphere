@@ -12,6 +12,7 @@ import NotificationToast from './components/common/NotificationToast';
 import Footer from './components/layout/Footer';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Profile from './pages/Profile';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -30,6 +31,7 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
       <Footer />
     </>
