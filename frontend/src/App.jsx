@@ -13,6 +13,7 @@ import Footer from './components/layout/Footer';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Profile from './pages/Profile';
+import Watchlist from './pages/Watchlist';
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -32,6 +33,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/watchlist' element={<Watchlist />} />
       </Routes>
       <Footer />
     </>

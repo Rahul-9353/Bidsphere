@@ -1,8 +1,11 @@
 import { Clock, User, Tag } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router';
 import { useCountdown } from '../../hooks/useCountdown';
 import AuctionBadge from './AuctionBadge';
+import { addToWatchlist, getWatchlistStatus, removeFromWatchlist } from '../../api/watchlistApi';
+import { useAuth } from '../../context/AuthContext';
+import { Heart } from 'lucide-react';
 
 
 // Formats "2026-08-10T10:00:00" into a human-readable countdown label
@@ -14,6 +17,31 @@ export default function AuctionCard({ auction }) {
     
     const [imageError, setImageError] = useState(false);
     const { label: timeLabel, urgent } = useCountdown(endTime);
+
+    const { isAuthenticated } = useAuth();
+    const [watching, setWatching] = useState(false);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            return;
+        }
+        getWatchlistStatus(id).then((res) => setWatching(res.watching)).catch(() => {});
+    }, [id, isAuthenticated]);
+
+    const toggleWatch = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!isAuthenticated) {
+            return;
+        }
+        if (watching) {
+            await removeFromWatchlist(id);
+            setWatching(false);
+        } else {
+            await addToWatchlist(id);
+            setWatching(true);
+        }
+    };
     
   return (
     <Link 
@@ -23,6 +51,15 @@ export default function AuctionCard({ auction }) {
         {/* Image */}
         <div className='relative aspect-[4/3] bg-gray-100 dark:bg-white/5 overflow-hidden'>
             <AuctionBadge auction={auction} />
+            {isAuthenticated && (
+                <button 
+                    onClick={toggleWatch}
+                    className='absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform'
+                >
+                    <Heart size={18} className={watching ? 'fill-red-500 text-red-500' : 'text-gray-600 dark:text-gray-300'} />
+                </button>
+            )}
+
             {imageUrl && !imageError ? (
                 <img 
                     src={imageUrl} 

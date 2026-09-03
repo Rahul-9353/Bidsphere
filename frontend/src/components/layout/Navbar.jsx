@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router';
-import { Sun, Moon, LogOut, Gavel, PlusCircle } from 'lucide-react';
+import { Sun, Moon, LogOut, Gavel, PlusCircle, Heart } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useNotifications } from '../../context/NotificationContext';
 import { Bell } from 'lucide-react';
@@ -47,6 +47,13 @@ export default function Navbar() {
                     <Link to="/create-auction" className="flex items-center gap-1.5 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                         <PlusCircle size={20} />
                         Sell an Item
+                    </Link>
+                )}
+
+                {isAuthenticated && (
+                    <Link to="/watchlist" className='flex items-center gap-1.5 hover:text-primary-600 dark:hover:text-primary-400 transition-colors'>
+                        <Heart size={20} />
+                        Watchlist
                     </Link>
                 )}
             </div>

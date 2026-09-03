@@ -65,4 +65,11 @@ public class GatewayConfig {
                 .build();
     }
 
+    @Bean
+    public RouterFunction<ServerResponse> watchlistRoute() {
+        return route("watchlist-service")
+                .route(path("/api/watchlist/**"), http())
+                .before(uri("lb://auction-service"))
+                .build();
+    }
 }
