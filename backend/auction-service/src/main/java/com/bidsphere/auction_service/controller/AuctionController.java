@@ -49,7 +49,8 @@ public class AuctionController {
     public ResponseEntity<?> searchAuctions(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String sortBy) {
-        return ResponseEntity.ok(auctionService.searchAuctions(query, category, sortBy));
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String status) {
+        return ResponseEntity.ok(auctionService.searchAuctions(query, category, sortBy, status));
     }
 }

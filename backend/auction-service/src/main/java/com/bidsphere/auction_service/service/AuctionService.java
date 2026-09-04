@@ -65,15 +65,17 @@ public class AuctionService {
         return new AuctionResponse(saved);
     }
 
-    public List<AuctionResponse> searchAuctions(String query, String category, String sortBy) {
+    public List<AuctionResponse> searchAuctions(String query, String category, String sortBy, String status) {
+        AuctionStatus filterStatus = "ENDED".equalsIgnoreCase(status) ? AuctionStatus.ENDED : AuctionStatus.ACTIVE;
+
         List<Auction> auctions;
 
         if (query != null && !query.isBlank()) {
-            auctions = auctionRepository.findByStatusAndTitleContainingIgnoreCase(AuctionStatus.ACTIVE, query);
+            auctions = auctionRepository.findByStatusAndTitleContainingIgnoreCase(filterStatus, query);
         } else if (category != null && !category.isBlank() && !category.equalsIgnoreCase("All")) {
-            auctions = auctionRepository.findByStatusAndCategory(AuctionStatus.ACTIVE, category);
+            auctions = auctionRepository.findByStatusAndCategory(filterStatus, category);
         } else  {
-            auctions = auctionRepository.findByStatus(AuctionStatus.ACTIVE);
+            auctions = auctionRepository.findByStatus(filterStatus);
         }
 
         if ("endingSoon".equals(sortBy)) {

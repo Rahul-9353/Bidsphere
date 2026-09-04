@@ -14,9 +14,9 @@ export default function Home() {
     const { isAuthenticated } = useAuth();
     const location = useLocation();
     const isBrowsePage = location.pathname === '/auctions';
-    const [filters, setFilters] = useState({ query: '', category: 'All', sortBy: ''});
+    const [filters, setFilters] = useState({ query: '', category: 'All', sortBy: '', status: 'ACTIVE'});
     const featured = auctions.slice(0, 3);
-
+    
     useEffect(() => {
         const fetchFn = isBrowsePage
             ? () => searchAuctions(filters)

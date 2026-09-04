@@ -35,6 +35,14 @@ export default function AuctionFilters({ filters, onChange }) {
                 <option value="priceLowHigh">Price: Low to High</option>
                 <option value="priceHighLow">Price: High to Low</option>
             </select>
+
+            <select 
+                value={filters.status || 'ACTIVE'}
+                onChange={(e) => onChange({ ...filters, status: e.target.value })}
+                className='px-4 py-2.5 rounded-full border border-gray-300 dark:border-white/10 bg-white/80 dark:bg-white/5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'>
+                    <option value="ACTIVE">Live Auctions</option>
+                    <option value="ENDED">Ended Auctions</option>
+            </select>
         </div>
     );
 }
