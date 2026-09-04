@@ -5,6 +5,7 @@ import com.bidsphere.auction_service.entity.AuctionStatus;
 import org.springframework.data.repository.CrudRepository;
 
 import java.awt.print.Pageable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AuctionRepository extends CrudRepository<Auction, Long> {
@@ -14,4 +15,5 @@ public interface AuctionRepository extends CrudRepository<Auction, Long> {
 
     List<Auction> findByStatusAndTitleContainingIgnoreCase(AuctionStatus status, String title);
     List<Auction> findByStatusAndCategory(AuctionStatus status, String category);
+    List<Auction> findByStatusAndEndTimeBefore(AuctionStatus status, LocalDateTime time);
 }
