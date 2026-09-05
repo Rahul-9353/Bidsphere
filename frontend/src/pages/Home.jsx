@@ -26,7 +26,7 @@ export default function Home() {
             .then(setAuctions)
             .catch(() => setError('Could not load auctions. Is the backend running?'))
             .finally(() => setLoading(false));
-    }, [isBrowsePage, filters.query, filters.category, filters.sortBy]);
+    }, [isBrowsePage, filters.query, filters.category, filters.sortBy, filters.status]);
 
 
   return (
