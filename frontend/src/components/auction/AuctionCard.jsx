@@ -46,7 +46,7 @@ export default function AuctionCard({ auction }) {
   return (
     <Link 
         to={`/auctions/${id}`}
-        className="group block bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10 rounded-2xl overflow-hidden hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-primary-900/10 transition-all duration-300"
+        className="group block bg-white/80 dark:bg-surface-darkCard/80 backdrop-blur-md border border-gray-200/50 dark:border-white/10 rounded-2xl overflow-hidden hover:border-primary-400 dark:hover:border-primary-500 hover:shadow-xl  hover:shadow-primary-900/10 hover:-translate-y-1  transition-all duration-300"
     >
         {/* Image */}
         <div className='relative aspect-[4/3] bg-gray-100 dark:bg-white/5 overflow-hidden'>

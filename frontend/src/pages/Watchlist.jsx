@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getMyWatchlist } from '../api/watchlistApi';
 import { Heart, Loader2 } from 'lucide-react';
 import AuctionCard from '../components/auction/AuctionCard';
+import AuctionCardSkeleton from '../components/auction/AuctionCardSkeleton';
 
 export default function Watchlist() {
     const [auctions, setAuctions] = useState([]);
@@ -22,7 +23,7 @@ export default function Watchlist() {
 
         {loading ? (
             <div className="flex justify-center py-20">
-                <Loader2 className='animate-spin text-primary-600 dark:text-primary-400' size={32} />
+                {[...Array(6)].map((_, i) => <AuctionCardSkeleton key={i} />)}
             </div>
         ) : auctions.length === 0 ? (
             <p className="text-center text-gray-500 dark:text-gray-400 font-sans py-16">

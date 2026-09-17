@@ -151,7 +151,7 @@ export default function AuctionDetail() {
                             <button 
                                 type='submit'
                                 disabled={placing}
-                                className='flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white font-medium transition-colors'
+                                className='flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 active:scale-95 disabled:opacity-60 text-white font-medium transition-all'
                             >
                                 {placing ? <Loader2 size={18} className='animate-spin' /> : <Gavel size={18} />}
                                 Bid

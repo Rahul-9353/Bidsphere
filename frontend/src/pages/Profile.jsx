@@ -4,6 +4,7 @@ import { getBidsByUser } from '../api/bidApi';
 import { Gavel, Loader, Loader2, Package, User } from 'lucide-react';
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
+import AuctionCardSkeleton from '../components/auction/AuctionCardSkeleton';
 
 export default function Profile() {
     const { user, isAuthenticated } = useAuth();
@@ -73,7 +74,7 @@ export default function Profile() {
 
         {loading ? (
             <div className="flex justify-center py-20">
-                <Loader2 className='animate-spin text-primary-600 dark:text-primary-400' size={32} />
+                {[...Array(6)].map((_, i) => <AuctionCardSkeleton key={i} />)}
             </div>
         ) : tab === 'listings' ? (
             listings.length === 0 ? (

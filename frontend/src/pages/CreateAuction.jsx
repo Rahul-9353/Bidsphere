@@ -3,8 +3,14 @@ import { useNavigate } from 'react-router';
 import { createAuction } from '../api/AuctionApi';
 import { Loader2, PlusCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useIsDarkMode } from '../hooks/useIsDarkMode';
+import { Listbox } from '@headlessui/react';
 
 const CATEGORIES = ['Watches', 'Art', 'Electronics', 'Collectibles', 'Jewelry', 'Furniture', 'Other'];
+const CATEGORY_OPTIONS = CATEGORIES.map((c) => ({ value: c, label: c }));
+
+const CURRENCIES = ['USD', 'EUR', 'GBP', 'INR'];
+const CURRENCY_OPTIONS = CURRENCIES.map((c) => ({ value: c, label: c }));
 
 export default function CreateAuction() {
 
@@ -24,6 +30,9 @@ export default function CreateAuction() {
     });
     const [error, setError] = useState('');
     const [submitting, setSubmitting] = useState(false);
+
+    const isDark = useIsDarkMode();
+    const colorScheme = { colorScheme: isDark ? 'dark' : 'light' };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value});
@@ -124,15 +133,28 @@ export default function CreateAuction() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 font-sans">
                     Currency
                 </label>
-                <select 
-                    name="currency" value={formData.currency} onChange={handleChange}
-                    className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
-                >
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="INR">INR</option>
-                </select>
+                <Listbox value={formData.currency} onChange={(value) => handleListboxChange('currency', value)}>
+                                <div className="relative">
+                                    <Listbox.Button className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-full border border-green-300 dark:border-white/10 bg-white/80 dark:bg-white/5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                                        <span>{CURRENCY_OPTIONS.find(o => o.value === formData.currency)?.label ?? 'USD'}</span>
+                                        <ChevronDown size={16} />
+                                    </Listbox.Button>
+                                    <Listbox.Options className="absolute z-10 mt-2 w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
+                                        {CURRENCY_OPTIONS.map((option) => (
+                                            <Listbox.Option
+                                                key={option.value}
+                                                value={option.value}
+                                                className={({ active }) => `px-4 py-2 cursor-pointer text-gray-900 dark:text-white ${
+                                                    active ? 'bg-primary-100 dark:bg-white/10' : ''
+                                                    }`
+                                                }
+                                            >
+                                                {option.label}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </div>
+                            </Listbox>
             </div>
         </div>
 
@@ -163,12 +185,28 @@ export default function CreateAuction() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 font-sans">
                 Category
             </label>
-            <select 
-                name="category" value={formData.category} onChange={handleChange}
-                className='w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all'
-            >
-                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
+            <Listbox value={formData.category} onChange={(value) => handleListboxChange('category', value)}>
+                <div className="relative">
+                    <Listbox.Button className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-full border border-green-300 dark:border-white/10 bg-white/80 dark:bg-white/5 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all">
+                        <span>{CATEGORY_OPTIONS.find(o => o.value === formData.category)?.label ?? 'Other'}</span>
+                        <ChevronDown size={16} />
+                    </Listbox.Button>
+                    <Listbox.Options className="absolute z-10 mt-2 w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gray-900 shadow-lg overflow-hidden">
+                        {CATEGORY_OPTIONS.map((option) => (
+                            <Listbox.Option
+                                key={option.value}
+                                value={option.value}
+                                className={({ active }) => `px-4 py-2 cursor-pointer text-gray-900 dark:text-white ${
+                                    active ? 'bg-primary-100 dark:bg-white/10' : ''
+                                    }`
+                                }
+                            >
+                                {option.label}
+                            </Listbox.Option>
+                        ))}
+                    </Listbox.Options>
+                </div>
+            </Listbox>
         </div>
 
         <div>

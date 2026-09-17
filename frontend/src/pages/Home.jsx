@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useLocation } from 'react-router';
 import { Loader2 } from 'lucide-react';
 import AuctionFilters from '../components/auction/AuctionFilters';
+import AuctionCardSkeleton from '../components/auction/AuctionCardSkeleton';
 
 export default function Home() {
     const [auctions, setAuctions] = useState([]);
@@ -30,7 +31,7 @@ export default function Home() {
 
 
   return (
-    <div>
+    <div className='page-enter'>
         {/* Hero */}
         <section className='max-w-5xl mx-auto px-6 pt-20 pb-16 text-center'>
             <div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-400/10 text-primary-700 dark:text-primary-400 text-sm font-medium font-sans mb-6'>
@@ -64,6 +65,10 @@ export default function Home() {
 
         {/* Featured / full grid */}
         <section className='max-w-7xl mx-auto px-6 pb-20'>
+            {isBrowsePage && (
+                <AuctionFilters filters={filters} onChange={setFilters} />
+            )}
+
             <div className='flex items-center justify-between mb-8'>
                 <h2 className='font-display text-2xl font-semibold text-gray-900 dark:text-white'>
                     {featured.length > 0 ? 'Live Auctions' : 'No Live Auctions Yet'}
@@ -75,29 +80,23 @@ export default function Home() {
                 )}
             </div>
 
-            {loading && (
-                <div className='flex justify-center py-20'>
-                    <Loader2 className="animate-spin text-primary-600 dark:text-primary-400" size={32} />
+            {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, i) => <AuctionCardSkeleton key={i} />)}
                 </div>
+            ) : (
+                <>
+                    {error && <p className='text-center text-red-500 font-sans py-10'>{error}</p>}
+                    {!loading && !error && auctions.length === 0 && (
+                        <p className="text-center text-gray-500 dark:text-gray-400 font-sans py-10">
+                            Be the first to create an auction!
+                        </p>
+                    )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {auctions.map((auction) => <AuctionCard key={auction.id} auction={auction} />)}
+                    </div>
+                </>
             )}
-
-            {error && (
-                <p className='text-center text-red-500 font-sans py-10'>{error}</p>
-            )}
-
-            {!loading && ! error && auctions.length === 0 && (
-                <p className='text-center text-gray-500 dark:text-gray-400 font-sans py-10'>
-                    Be the first to create an auction!
-                </p>
-            )}
-
-            {isBrowsePage && <AuctionFilters filters={filters} onChange={setFilters} />}
-
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-                {(featured.length > 0 ? auctions : []).map((auction) => (
-                    <AuctionCard key={auction.id} auction={auction} />
-                ))}
-            </div>
         </section>
     </div>
   );
